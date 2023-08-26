@@ -39,7 +39,7 @@ app.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404, "Route Not found"));
 });
-app.use((req, res, next, err) => {
+app.use((err, req, res, next) => {
     return res.status(err.status || 500).json({
         success: false,
         message: err.message,

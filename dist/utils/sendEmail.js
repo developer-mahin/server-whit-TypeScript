@@ -12,22 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const generateJsonwebtoken = (payload, secretKey, expireIn) => __awaiter(void 0, void 0, void 0, function* () {
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const transporter = nodemailer_1.default.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+        user: "mahenkhan83@gmail.com",
+        pass: "wvcgmfxgksbzhhaj",
+    },
+});
+const sendEmail = (mailData) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(mailData);
     try {
-        if (typeof payload !== "object" || !payload) {
-            throw new Error("payload must be an object");
-        }
-        if (typeof secretKey !== "string" || secretKey === "") {
-            throw new Error("secret key must be a string");
-        }
-        const token = jsonwebtoken_1.default.sign(payload, secretKey, {
-            expiresIn: expireIn,
-        });
-        return token;
+        const mailOptions = {
+            from: "mahenkhan83@gmail.com",
+            to: mailData.email,
+            subject: mailData.subject,
+            html: mailData.html,
+        };
+        const info = yield transporter.sendMail(mailOptions);
+        console.log("Message sent: %s", info.response);
     }
     catch (error) {
-        throw new Error("Failed to sign up to jwt");
+        throw error;
     }
 });
-exports.default = generateJsonwebtoken;
+exports.default = sendEmail;
