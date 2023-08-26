@@ -1,17 +1,9 @@
 import app from "./app";
 import mongoose from "mongoose";
 import colors from "colors";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 const port = process.env.PORT || 5000;
-const databaseURL = process.env.DATABASE;
-
-declare namespace NodeJS {
-  interface ProcessEnv {
-    API_KEY: string;
-    databaseURL: string;
-  }
-}
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/ts")
